@@ -100,7 +100,7 @@ class LinkedList:
             self.head = self.head.get_next()
             # return the old_head's value 
             return val
-    
+
     def get_max(self):
         if not self.head:
             return None
@@ -111,8 +111,3 @@ class LinkedList:
                 max_val = current.value 
             current = current.next_node 
         return max_val 
-
-# ll = LinkedList()
-# ll.add_to_tail(5)
-# ll.add_to_tail(18)
-# ll.add_to_tail(22)
