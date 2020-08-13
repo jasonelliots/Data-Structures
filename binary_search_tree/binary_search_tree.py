@@ -139,9 +139,11 @@ class BSTNode:
     def in_order_print(self):
         
         if self:
-            self.in_order_print(self.left)
+            if self.left:
+                self.left.in_order_print()
             print(self.value)
-            self.in_order_print(self.right)
+            if self.right:
+                self.right.in_order_print()
     
 
     # Print the value of every node, starting with the given node,
@@ -170,22 +172,23 @@ class BSTNode:
     # in an iterative depth first traversal - LIFO 
     def dft_print(self):
         stack = []
-        printStack = []
+        # printStack = []
 
         stack.append(self)
-        printStack.append(self.value)
+        # printStack.append(self.value)
 
         while len(stack) > 0:
             current_node = stack.pop() #pops node off the end and returns the popped node 
+            print(current_node.value)
             if current_node.right:
                 stack.append(current_node.right)
-                printStack.append(current_node.right.value)
+                # printStack.append(current_node.right.value)
             if current_node.left:
                 stack.append(current_node.left)
-                printStack.append(current_node.left.value)
+                # printStack.append(current_node.left.value)
 
-        for i in printStack:
-            print(i)
+        # for i in printStack:
+        #     print(i)
 
 
     # Stretch Goals -------------------------
@@ -212,7 +215,12 @@ bst.insert(3)
 bst.insert(4)
 bst.insert(2)
 
+print("bft_print")
+
 bst.bft_print()
+
+print("dft_print")
+
 bst.dft_print()
 
 print("elegant methods")
