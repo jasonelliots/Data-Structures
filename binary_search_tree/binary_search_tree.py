@@ -40,7 +40,7 @@ class BSTNode:
     # Return True if the tree contains the value
     # False if it does not
     def contains(self, target):
-        # check if current node's value is the target 
+        # BASE CASE: check if current node's value is the target 
         if self.value == target:
             return True 
         else:
@@ -50,7 +50,7 @@ class BSTNode:
                 if self.left:
                     # call contains function on left child with target
                     return self.left.contains(target)
-                # if not, return false 
+                # BASE CASE: if not, return false (target is not in the tree)
                 else:
                     return False 
             #if target is greater than or equal to current value 
@@ -59,51 +59,134 @@ class BSTNode:
                 if self.right:
                     # call contains function on right child with target 
                     return self.right.contains(target)
+                # BASE CASE: if not, return false (target is not in the tree)
                 else:
                     return False 
 
     # Return the maximum value found in the tree
     def get_max(self):
+        #recursive
         if self.right:
             return self.right.get_max()
         else:
             return self.value 
+        
+        #iterative
+        # current = self
+
+        # while current.right:
+        #     current = current.right 
+
+        # return current.value 
 
 
     # Call the function `fn` on the value of each node
     # This method doesn't return anything 
     def for_each(self, fn):
         #access every single node on the entire tree and call the passed function on it 
+
+
+        #recursive - depth first traversal 
         #call the function on this node 
         fn(self.value)
         # if node has a right child 
         if self.right:
             # call for_each method on right child 
-            return self.right.for_each(fn)
+            self.right.for_each(fn)
         # if node has a left child
         if self.left:
             # call for_each method on left child 
-            return self.left.for_each(fn)
-        # otherwise, there are no more nodes 
-        # else: 
-        #     return 
+            self.left.for_each(fn)
+
+        # #iterative - depth first (vertically)
+        # # use a stack to achieve same ordering 
+        # stack = []
+        # # add the root node to our stack 
+        # stack.append(self)
+        # #continue popping from our stack so long as there are nodes in it 
+        # while len(stack) > 0:
+        #     current_node = stack.pop()
+
+        #     #check if this node has children 
+        #     if current_node.right:
+        #         stack.append(current_node.right)
+        #     if current_node.left:
+        #         stack.append(current_node.left)
+            
+        #     fn(current_node.value)
+
+        # # iterative - breadth first - moves level by level (horizontally) - FIFO - queue
+        # from collections import deque
+        # q = deque()
+        # q.append(self)
+
+        # while len(q) > 0:
+        #     current_node = q.popleft()
+
+        #     #check if this node has children
+        #     if current_node.left:
+        #         q.append(current_node.left)
+        #     if current_node.right:
+        #         q.append(current_node.right)
+            
+        #     fn(current_node.value)
+
 
     # Part 2 -----------------------
 
     # Print all the values in order from low to high
     # Hint: Use a recursive, depth first traversal
     def in_order_print(self):
-        pass
+        
+        if self:
+            self.in_order_print(self.left)
+            print(self.value)
+            self.in_order_print(self.right)
+    
 
     # Print the value of every node, starting with the given node,
-    # in an iterative breadth first traversal
+    # in an iterative breadth first traversal - FIFO 
     def bft_print(self):
-        pass
+        from collections import deque
+        q = deque()
+        qPrint = deque()
+    
+        q.append(self)
+        qPrint.append(self.value)
+        
+        while len(q) > 0:
+            current_node = q.popleft()
+            if current_node.left:
+                q.append(current_node.left)
+                qPrint.append(current_node.left.value)
+            if current_node.right:
+                q.append(current_node.right)
+                qPrint.append(current_node.right.value)
+
+        for i in qPrint:
+            print(i)
 
     # Print the value of every node, starting with the given node,
-    # in an iterative depth first traversal
+    # in an iterative depth first traversal - LIFO 
     def dft_print(self):
-        pass
+        stack = []
+        printStack = []
+
+        stack.append(self)
+        printStack.append(self.value)
+
+        while len(stack) > 0:
+            current_node = stack.pop() #pops node off the end and returns the popped node 
+            if current_node.right:
+                stack.append(current_node.right)
+                printStack.append(current_node.right.value)
+            if current_node.left:
+                stack.append(current_node.left)
+                printStack.append(current_node.left.value)
+
+        for i in printStack:
+            print(i)
+
 
     # Stretch Goals -------------------------
     # Note: Research may be required
@@ -133,9 +216,9 @@ bst.bft_print()
 bst.dft_print()
 
 print("elegant methods")
-print("pre order")
-bst.pre_order_print()
+# print("pre order")
+# bst.pre_order_print()
 print("in order")
 bst.in_order_print()
-print("post order")
-bst.post_order_print()  
+# print("post order")
+# bst.post_order_print()  
